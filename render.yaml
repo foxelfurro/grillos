@@ -1,0 +1,16 @@
+# Blueprint de Render: crea el Web Service. La base de datos vive en Neon.
+# Úsalo con "New > Blueprint" en el panel de Render, apuntando al repositorio.
+services:
+  - type: web
+    name: telemetria-rancho
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      # Render te pedirá el valor: pega el link de conexión de Neon.
+      - key: DATABASE_URL
+        sync: false
+      - key: INGEST_TOKEN
+        generateValue: true

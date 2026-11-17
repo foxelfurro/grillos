@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Telemetría del rancho</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main>
+    <header class="encabezado">
+      <h1>Telemetría del rancho</h1>
+      <p id="conexion" class="conexion">Consultando…</p>
+    </header>
+
+    <div id="alerta" class="alerta" role="alert" hidden></div>
+
+    <section class="tarjetas" aria-live="polite">
+      <article class="tarjeta">
+        <h2>Temperatura</h2>
+        <p id="temperatura" class="valor">—</p>
+      </article>
+      <article class="tarjeta">
+        <h2>Humedad</h2>
+        <p id="humedad" class="valor">—</p>
+      </article>
+    </section>
+
+    <p id="espera" class="espera" hidden>Esperando la primera lectura del sensor…</p>
+
+    <dl class="detalle">
+      <dt>Dispositivo</dt>
+      <dd id="dispositivo">—</dd>
+      <dt>Fecha de la última lectura</dt>
+      <dd id="fecha">—</dd>
+    </dl>
+
+    <section>
+      <h2>Últimas lecturas</h2>
+      <table class="historial">
+        <thead>
+          <tr>
+            <th scope="col">Captura</th>
+            <th scope="col">Dispositivo</th>
+            <th scope="col">Temperatura (°C)</th>
+            <th scope="col">Humedad (%)</th>
+          </tr>
+        </thead>
+        <tbody id="historial"></tbody>
+      </table>
+      <p id="historial-vacio" class="espera" hidden>Sin lecturas todavía.</p>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

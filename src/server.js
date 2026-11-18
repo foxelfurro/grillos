@@ -3,6 +3,7 @@
 const { leerConfig } = require('./config');
 const { crearPool } = require('./db');
 const { migrar } = require('./migrate');
+const { iniciarLimpieza } = require('./limpieza');
 const { crearApp } = require('./app');
 
 // Render asigna PORT; 0.0.0.0 es obligatorio para aceptar tráfico externo.
@@ -17,12 +18,14 @@ async function main() {
     console.log(`Migraciones aplicadas: ${aplicadas.join(', ')}`);
   }
 
+  const detenerLimpieza = iniciarLimpieza(pool);
   const app = crearApp({ db: pool, ingestToken: config.ingestToken });
   const server = app.listen(config.port, HOST, () => {
     console.log(`Telemetría escuchando en http://${HOST}:${config.port}`);
   });
 
   const apagar = (senal) => {
+    detenerLimpieza();
     console.log(`Recibido ${senal}; cerrando el servidor.`);
     server.close(async () => {
       await pool.end();

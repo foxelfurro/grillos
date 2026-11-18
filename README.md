@@ -162,7 +162,11 @@ Para configurar el puente de la Raspberry Pi, entrega:
 - **Método y cabeceras:** `POST`, `Content-Type: application/json` y `Authorization: Bearer <token>`.
 - **Nombre de la variable del token:** `INGEST_TOKEN`. El valor se copia desde Render (*Environment* del Web Service). Se entrega por un canal privado y nunca se publica en el repositorio ni en el panel.
 
-El puente puede reintentar el mismo envío sin riesgo: cada lectura lleva su UUID, así que un reenvío devuelve `200` y no duplica datos.
+Mientras la lectura siga guardada, reenviar su UUID devuelve `200`. Si ya caducó y se eliminó, el puente puede volver a ingresarla como una lectura nueva.
+
+## Retención de lecturas
+
+El servicio de Node elimina las lecturas que llevan más de 168 horas en la base, según `recibido_en`. Ejecuta la limpieza al arrancar y cada hora mientras está activo. Si Render suspende el servicio, los registros vencidos se eliminan en la siguiente limpieza. El log de Render indica cuántas filas se eliminaron en cada ejecución.
 
 ## Decisiones de diseño
 
